@@ -28,9 +28,9 @@ export default {
         configStore.access_token = accessToken;
         localStorage.setItem("access_token", token);
         // 清除哈希值
-        window.location.hash = '';
+        // window.location.hash = '';
         // 这种情况下不想access_token显示在地址栏中，重新定向到首页
-        router.replace("/");
+        // router.replace("/");
       }
     });
 
