@@ -110,6 +110,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { List, Cell } from "vant";
+import { useConfigStore } from "@/stores/config";
 
 export default {
   name: "LastedList",
@@ -120,8 +121,10 @@ export default {
   setup() {
     const list = ref([]);
 
+    const configStore = useConfigStore();
+
     onMounted(() => {
-      fetch(process.env.BASE_URL + "data.json")
+      fetch(configStore.getAbsolutePath("/data.json"))
         .then((response) => response.json())
         .then((data) => {
           list.value = data.Discussions;

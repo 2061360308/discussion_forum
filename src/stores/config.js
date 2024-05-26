@@ -6,9 +6,16 @@ const useConfigStore = defineStore("configStore", () => {
 
     const access_token = ref(window.localStorage.getItem("access_token") || null);
 
+    function getAbsolutePath(path){
+      if (path.startsWith("/")) {
+        path = path.slice(1);
+        return process.env.BASE_URL + path;
+      }
+    }
+
     async function getConfig() {
       try {
-        const response = await fetch(process.env.BASE_URL + "config.json");
+        const response = await fetch(getAbsolutePath("/config.json"));
         const data = await response.json();
         config.value = data;
         console.log("configData:", data);
@@ -17,7 +24,7 @@ const useConfigStore = defineStore("configStore", () => {
       }
     }
 
-    return { config, access_token, getConfig };
+    return { config, access_token, getConfig, getAbsolutePath };
 });
 
 export { useConfigStore };

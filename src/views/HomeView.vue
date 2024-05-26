@@ -1,7 +1,7 @@
 <template>
   <div class="top">
     <div class="title">
-      <img alt="logo" :src="configStore.config.site.logo" />
+      <img alt="logo" :src="configStore.getAbsolutePath(configStore.config.site.logo)" />
       <p>{{ configStore.config.site.name }}</p>
     </div>
     <div class="subtitle">
@@ -219,15 +219,7 @@ export default {
       )
     );
 
-    onMounted(() => {
-      fetch("/config.json")
-        .then((response) => response.json())
-        .then((data) => {
-          categoriesLogo.value = data.categories;
-          console.log(categoriesLogo.value);
-        })
-        .catch((error) => console.error("Error:", error));
-    });
+    categoriesLogo.value = configStore.config.categories;
 
     return {
       configStore,
