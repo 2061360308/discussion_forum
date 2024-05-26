@@ -28,7 +28,7 @@ export default {
         // 清除哈希值
         window.location.hash = '';
         // 这种情况下不想access_token显示在地址栏中，重新定向到首页
-        router.replace("/");
+        // router.replace("/");
       }
     });
 
