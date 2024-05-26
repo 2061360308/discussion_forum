@@ -219,8 +219,6 @@ export default {
       )
     );
 
-    console.log(discussionCategories.value);
-
     onMounted(() => {
       fetch("/config.json")
         .then((response) => response.json())

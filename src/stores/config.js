@@ -11,6 +11,7 @@ const useConfigStore = defineStore("configStore", () => {
         .then((response) => response.json())
         .then((data) => {
           config.value = data;
+          console.log("configData:",data);
         })
         .catch((error) => console.error("Error:", error));
     }
