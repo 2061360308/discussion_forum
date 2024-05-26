@@ -36,7 +36,7 @@
                 </div>
                 <img
                   v-if="categoriesLogo[item.name]"
-                  :src="categoriesLogo[item.name]"
+                  :src="configStore.getAbsolutePath(categoriesLogo[item.name])"
                   alt="logo"
                 />
               </div>
