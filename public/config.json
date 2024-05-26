@@ -15,6 +15,7 @@
     "discussion": {
         "owner": "vuejs",
         "repo": "core",
-        "clientId": "Ov23lileX1tg2t2TKwux"
+        "clientId": "Ov23lileX1tg2t2TKwux",
+        "redirectUri": "https://legado-auth.vercel.app/api/auth"
     }
 }

@@ -1,14 +1,17 @@
 <template>
   <div class="top">
     <div class="title">
-      <img alt="logo" :src="configStore.getAbsolutePath(configStore.config.site.logo)" />
+      <img
+        alt="logo"
+        :src="configStore.getAbsolutePath(configStore.config.site.logo)"
+      />
       <p>{{ configStore.config.site.name }}</p>
     </div>
     <div class="subtitle">
       <p>{{ configStore.config.site.description }}</p>
     </div>
   </div>
-  <div class="login" v-if="! configStore.access_token">
+  <div class="login" v-if="!configStore.access_token">
     <van-button type="primary" @click="login">Github 授权</van-button>
     <p>授权登录后查看实时消息、参与讨论</p>
   </div>
@@ -221,10 +224,21 @@ export default {
 
     categoriesLogo.value = configStore.config.categories;
 
+    const login = () => {
+      const clientId = configStore.config.discussion.clientId;
+      const redirectUri = encodeURIComponent(
+        configStore.config.discussion.redirectUri
+      );
+      const scope = encodeURIComponent("user,public_repo,gist");
+      const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+      window.location.href = url;
+    };
+
     return {
       configStore,
       discussionCategories,
       categoriesLogo,
+      login,
     };
   },
 };
