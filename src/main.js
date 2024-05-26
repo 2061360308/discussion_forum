@@ -22,14 +22,6 @@ const app = createApp(App);
 app.use(router);
 app.use(createPinia());
 
-
-// 先导入config
-const configStore = useConfigStore();
-configStore.getConfig();
-console.log(configStore);
-
-
-
 app.use(Button);
 app.use(Swipe);
 app.use(SwipeItem);
@@ -41,4 +33,12 @@ app.use(Cell);
 app.use(CellGroup);
 app.use(VanImage);
 
-app.mount('#app');
+// 先导入config
+const configStore = useConfigStore();
+configStore.getConfig();
+console.log(configStore);
+
+configStore.getConfig().then(() => {
+    app.mount('#app');
+});
+

@@ -6,14 +6,15 @@ const useConfigStore = defineStore("configStore", () => {
 
     const access_token = ref(window.localStorage.getItem("access_token") || null);
 
-    function getConfig() {
-      fetch("/config.json")
-        .then((response) => response.json())
-        .then((data) => {
-          config.value = data;
-          console.log("configData:",data);
-        })
-        .catch((error) => console.error("Error:", error));
+    async function getConfig() {
+      try {
+        const response = await fetch("/config.json");
+        const data = await response.json();
+        config.value = data;
+        console.log("configData:", data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
 
     return { config, access_token, getConfig };
