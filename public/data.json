@@ -1,0 +1,94 @@
+{
+  "PinnedDiscussion": [
+    {
+      "discussion": {
+        "id": "D_kwDOL_11UM4AZpIY",
+        "title": "欢迎来阅读开源论坛",
+        "body": "## 😀 创建初衷 & 发展目标 & 基本原则\r\n阅读论坛由于不可抗因素被迫关闭，获取书源以及书友日常讨论变得不怎么方便。仓库`2061360308/legado`的建立目的就是解决这个问题。但是我必须申明，仓库作者仅仅会抽出部分时间进行管理，日常运行主要依赖脚本和书友们的自觉维护。正如你所见这是发布在`Github`上的一个`开源项目`，我们的目标也仅仅是给大家提供一个互相交流的平台。但是有一句话说的好`“开源不等于免费”`，论坛平台不会向大家收取任何费用，但我们也不会强制其他书源创作者免费发布他的劳动成果，更没有任何义务一定要帮助某个人解决他的问题，这一点希望参与讨论的各位朋友能够理解。最后一点，色情书源是不被允许的。\r\n## 🎨 运作原理\r\n论坛主要建立在[`Github仓库`](https://github.com/2061360308/legado)的[`Discussion`](https://github.com/2061360308/legado/discussions)功能上，另外书源等的发布依赖于`Github`的[`Gist`](https://gist.github.com/)。此外我们还会定时运行相关的Action用来整理点赞数高的那些Gist并将他们添加到仓库的ReadMe中。\r\n## ✨ 结语\r\n有关论坛的其他行为准则和使用教程我会稍后编辑，祝大家生活愉快。",
+        "author": { "login": "2061360308" }
+      }
+    }
+  ],
+  "Discussions": [
+    {
+      "id": "D_kwDOL_11UM4AZqTQ",
+      "title": "关于如何发布新的书源",
+      "author": {
+        "login": "2061360308",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/42377282?u=3b4e47627231d4f071e4ab8cc341e17abc864ac7&v=4",
+        "resourcePath": "/2061360308",
+        "url": "https://github.com/2061360308"
+      },
+      "createdAt": "2024-05-25T05:48:18Z",
+      "comments": { "totalCount": 0 }
+    },
+    {
+      "id": "D_kwDOL_11UM4AZqTY",
+      "title": "书源发布示例",
+      "author": {
+        "login": "2061360308",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/42377282?u=3b4e47627231d4f071e4ab8cc341e17abc864ac7&v=4",
+        "resourcePath": "/2061360308",
+        "url": "https://github.com/2061360308"
+      },
+      "createdAt": "2024-05-25T05:50:41Z",
+      "comments": { "totalCount": 0 }
+    },
+    {
+      "id": "D_kwDOL_11UM4AZpIY",
+      "title": "欢迎来阅读开源论坛",
+      "author": {
+        "login": "2061360308",
+        "avatarUrl": "https://avatars.githubusercontent.com/u/42377282?u=3b4e47627231d4f071e4ab8cc341e17abc864ac7&v=4",
+        "resourcePath": "/2061360308",
+        "url": "https://github.com/2061360308"
+      },
+      "createdAt": "2024-05-24T08:08:09Z",
+      "comments": { "totalCount": 0 }
+    }
+  ],
+  "DiscussionCategories": [
+    {
+      "name": "A公告",
+      "description": "维护者更新",
+      "emojiHTML": "<div>📣</div>",
+      "emoji": ":mega:",
+      "id": "DIC_kwDOL_11UM4CfkqR"
+    },
+    {
+      "name": "B闲聊区",
+      "description": "可以在这儿聊所有有关Legado的事情",
+      "emojiHTML": "<div>💬</div>",
+      "emoji": ":speech_balloon:",
+      "id": "DIC_kwDOL_11UM4CfkqS"
+    },
+    {
+      "name": "C书源发布",
+      "description": "分享你编写或喜欢的书源以及书源合集",
+      "emojiHTML": "<div>💡</div>",
+      "emoji": ":bulb:",
+      "id": "DIC_kwDOL_11UM4CfkqU"
+    },
+    {
+      "name": "D订阅源发布",
+      "description": "分享你编写或喜欢的订阅源",
+      "emojiHTML": "<div>🙌</div>",
+      "emoji": ":raised_hands:",
+      "id": "DIC_kwDOL_11UM4CfkqV"
+    },
+    {
+      "name": "E问答区",
+      "description": "寻求社区的帮助",
+      "emojiHTML": "<div>🙏</div>",
+      "emoji": ":pray:",
+      "id": "DIC_kwDOL_11UM4CfkqT"
+    },
+    {
+      "name": "F投票",
+      "description": "社区投票",
+      "emojiHTML": "<div>🗳️</div>",
+      "emoji": ":ballot_box:",
+      "id": "DIC_kwDOL_11UM4CfkqW"
+    }
+  ]
+}

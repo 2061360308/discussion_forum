@@ -1,30 +1,40 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
   <router-view/>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { defineComponent, onMounted, nextTick } from "vue";
+import { useConfigStore } from "@/stores/config";
+export default {
+  name: "App",
+  setup() {
 
-nav {
-  padding: 30px;
-}
+    const configStore = useConfigStore();
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+    onMounted(async () => {
+      await nextTick();
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+      let hash = window.location.hash
+      // 去掉哈希部分的第一个字符（#）
+      hash = hash.substr(2);
+      // 使用 URLSearchParams 来解析查询参数
+      let params = new URLSearchParams(hash);
+      // 获取 access_token 参数
+      let accessToken = params.get("access_token");
+      let token = localStorage.getItem("token");
+      if (accessToken) {
+        configStore.access_token = accessToken;
+        localStorage.setItem("access_token", token);
+        // 清除哈希值
+        window.location.hash = '';
+        // 这种情况下不想access_token显示在地址栏中，重新定向到首页
+        router.replace("/");
+      }
+    });
+
+    return {
+      msg: "Vue 3 + Vite",
+    };
+  },
+};
+</script>

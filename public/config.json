@@ -1,0 +1,20 @@
+{
+    "site":{
+        "name": "legado 开源论坛",
+        "description": "借助 Github API 和 Discussion 使用 Vue.js 的开发开源论坛",
+        "logo": "/logo.png"
+    },
+    "categories": {
+        "A公告": "/categorie_logo/公告.png",
+        "B闲聊区": "/categorie_logo/聊天.png",
+        "C书源发布": "/categorie_logo/书源.png",
+        "D订阅源发布": "/categorie_logo/订阅.png",
+        "E问答区": "/categorie_logo/问答.png",
+        "F投票": "/categorie_logo/投票.png"
+    },
+    "discussion": {
+        "owner": "vuejs",
+        "repo": "core",
+        "clientId": "Ov23lileX1tg2t2TKwux"
+    }
+}

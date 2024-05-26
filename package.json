@@ -7,7 +7,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@vant/touch-emulator": "^1.4.0",
     "core-js": "^3.8.3",
+    "pinia": "^2.1.7",
+    "vant": "^4.9.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
