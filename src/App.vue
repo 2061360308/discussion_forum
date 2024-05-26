@@ -23,14 +23,15 @@ export default {
       let params = new URLSearchParams(hash);
       // 获取 access_token 参数
       let accessToken = params.get("access_token");
-      let token = localStorage.getItem("token");
+      console.log("accessToken::", accessToken);
+      // let token = localStorage.getItem("token");
       if (accessToken) {
         configStore.access_token = accessToken;
-        localStorage.setItem("access_token", token);
+        localStorage.setItem("access_token", accessToken);
         // 清除哈希值
-        // window.location.hash = '';
+        window.location.hash = '';
         // 这种情况下不想access_token显示在地址栏中，重新定向到首页
-        // router.replace("/");
+        router.replace("/");
       }
     });
 
