@@ -8,7 +8,7 @@ const useConfigStore = defineStore("configStore", () => {
 
     async function getConfig() {
       try {
-        const response = await fetch("/config.json");
+        const response = await fetch(process.env.BASE_URL + "config.json");
         const data = await response.json();
         config.value = data;
         console.log("configData:", data);

@@ -121,7 +121,7 @@ export default {
     const list = ref([]);
 
     onMounted(() => {
-      fetch("/data.json")
+      fetch(process.env.BASE_URL + "data.json")
         .then((response) => response.json())
         .then((data) => {
           list.value = data.Discussions;
