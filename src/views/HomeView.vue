@@ -146,6 +146,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import { onMounted, ref } from "vue";
 import LastedList from "@/components/LastedList.vue";
 import { useConfigStore } from "@/stores/config";
+import { useApiStore } from "@/stores/api";
 
 export default {
   name: "HomeView",
@@ -155,7 +156,8 @@ export default {
   },
   setup() {
     const configStore = useConfigStore();
-
+    const apiStore = useApiStore();
+    const discussionCategories = ref([]);
     const categoriesLogo = ref({});
 
     const chunkArray = (array, chunkSize) => {
@@ -172,9 +174,21 @@ export default {
       }, []);
     };
 
-    const discussionCategories = ref(
-      chunkArray(
-        [
+    // 加载分类
+    // 判断是否登录
+    if (configStore.access_token) {
+      apiStore.githubApi(apiStore.QUERY_DISCUSSIONS_CATEGORIES, {})
+        .then((res) => {
+          // console.log(res);
+          const categories = res.repository.discussionCategories.nodes;
+          discussionCategories.value = chunkArray(categories, 4);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      // 从action提前构建的数据中加载
+      const categories = [
           {
             name: "A公告",
             description: "维护者更新",
@@ -217,10 +231,9 @@ export default {
             emoji: ":ballot_box:",
             id: "DIC_kwDOL_11UM4CfkqW",
           },
-        ],
-        4
-      )
-    );
+        ]
+      discussionCategories.value = chunkArray(categories, 4);
+    }
 
     categoriesLogo.value = configStore.config.categories;
 

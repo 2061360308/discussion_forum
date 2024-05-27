@@ -23,9 +23,9 @@ export default {
       let params = new URLSearchParams(hash);
       // 获取 access_token 参数
       let accessToken = params.get("access_token");
-      console.log("accessToken::", accessToken);
       // let token = localStorage.getItem("token");
       if (accessToken) {
+        console.log("存储新的access_token::", accessToken);
         configStore.access_token = accessToken;
         localStorage.setItem("access_token", accessToken);
         // 清除哈希值

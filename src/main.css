@@ -4,3 +4,12 @@
     margin: 0 auto;
     background-color: #f0f0f0;
 }
+
+.fade-out {
+    transition: opacity 1s;
+    opacity: 0;
+}
+
+.emoji {
+    display: inline-block;
+}

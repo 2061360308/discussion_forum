@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@vant/touch-emulator": "^1.4.0",
+    "axios": "^1.7.2",
     "core-js": "^3.8.3",
     "pinia": "^2.1.7",
     "vant": "^4.9.0",

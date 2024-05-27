@@ -3,34 +3,35 @@
     <img src="../assets/热点.png" alt="logo" />
     <p>置顶 & 最新</p>
   </div>
-  <van-list
-    :loading="false"
-    :finished="true"
-    finished-text="没有更多了"
-  >
-    <van-cell v-for="item in list" :key="item" class="discussion-cell" :data-id="item.id">
+  <van-list :loading="loading" :finished="finished" @load="onLoad" finished-text="没有更多了">
+    <van-cell
+      v-for="item in list"
+      :key="item"
+      class="discussion-cell"
+      :data-id="item.id"
+      @click="openDiscussion"
+    >
       <template #icon>
         <div class="author">
           <van-image
             round
             width="30px"
             height="30px"
+            :title="item.author.login"
             :src="item.author.avatarUrl"
           />
-          <p>{{ item.author.login }}</p>
+          <p :title="item.author.login">{{ item.author.login }}</p>
         </div>
       </template>
       <template #title>
         <div class="title">{{ item.title }}</div>
-      </template>
-      <template #label>
-        <div class="create-time">{{ item.createdAt }}</div>
-      </template>
-      <template #value>
         <div class="comments">
           <img src="../assets/评论.png" alt="logo" />
           <span>{{ item.comments.totalCount }}</span>
         </div>
+      </template>
+      <template #label>
+        <div class="create-time">发表于 {{ item.createdAt }} 所属板块 {{ item.category.name }}</div>
       </template>
     </van-cell>
   </van-list>
@@ -84,6 +85,11 @@
   font-size: 10px;
   color: #606266;
   margin: 0;
+  width: 60px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   /* padding: 0; */
 }
 
@@ -111,6 +117,8 @@
 import { ref, onMounted } from "vue";
 import { List, Cell } from "vant";
 import { useConfigStore } from "@/stores/config";
+import { useApiStore } from "@/stores/api";
+import { useRouter } from "vue-router";
 
 export default {
   name: "LastedList",
@@ -119,36 +127,69 @@ export default {
     [Cell.name]: Cell,
   },
   setup() {
-    const list = ref([]);
-
     const configStore = useConfigStore();
+    const apiStore = useApiStore();
+    const router = useRouter();
 
-    onMounted(() => {
-      fetch(configStore.getAbsolutePath("/data.json"))
-        .then((response) => response.json())
-        .then((data) => {
-          list.value = data.Discussions;
-          console.log("list::", list.value);
+    const list = ref([]);
+    const loading = ref(false);
+    const finished = ref(false);
+    let pageInfo = null;
+
+    if (configStore.access_token) {
+      // 先请求置顶的帖子
+      apiStore
+        .githubApi(apiStore.QUERY_PINNED_DISCUSSIONS, {})
+        .then((res) => {
+          console.log(res);
+          let pinned_discussion = res.repository.pinnedDiscussions.nodes;
+          // 解析出所有的discussion
+          pinned_discussion = pinned_discussion.map((item) => item.discussion);
+          list.value.unshift(...pinned_discussion);
         })
-        .catch((error) => console.error("Error:", error));
-    });
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      // 未登录
+      // Todo: 从action提前构建的数据中加载
+    }
 
     const onLoad = () => {
       loading.value = true;
-      setTimeout(() => {
-        finished.value = true;
-        // for (let i = 0; i < 10; i++) {
-        //   list.value.push(list.value.length + 1);
-        // }
-        // loading.value = false;
-        // if (list.value.length >= 40) {
-        //   finished.value = true;
-        // }
-      }, 1000);
+      // 请求最新的帖子20条
+      apiStore
+        .githubApi(apiStore.QUERY_DISCUSSIONS, {
+          first: 20,
+          after: pageInfo ? pageInfo.endCursor : null,
+        })
+        .then((res) => {
+          console.log(res);
+          pageInfo = res.repository.discussions.pageInfo;
+          list.value.push(...res.repository.discussions.nodes);
+          console.log("list::", list.value);
+          loading.value = false;
+
+          if (!pageInfo.hasNextPage) {
+            finished.value = true;
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+
+    const openDiscussion = (e) => {
+      router.push(`/discussion/${e.currentTarget.dataset.id}`);
+      console.log(e.currentTarget.dataset.id);
     };
 
     return {
       list,
+      loading,
+      finished,
+      onLoad,
+      openDiscussion,
     };
   },
 };
