@@ -8,7 +8,7 @@
   <div class="send-box">
     <van-nav-bar
       title="编辑"
-      left-text="回复"
+      left-text="发送"
       right-text="取消"
       @click-left="onClickPublish"
       @click-right="onClickEditorCancel"

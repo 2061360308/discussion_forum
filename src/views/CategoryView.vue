@@ -4,6 +4,7 @@
     right-text="发帖"
     :fixed="true"
     left-arrow
+    @click-left="onClickNavLeft"
     @click-right="onClickNavRight"
   />
   <div class="top">
@@ -167,6 +168,7 @@ export default {
         });
     };
     
+    const onClickNavLeft = () => history.back();
 
     const onClickNavRight = () => {
       console.log("onClickNavRight");
@@ -186,6 +188,7 @@ export default {
       loading,
       finished,
       onLoad,
+      onClickNavLeft,
       onClickNavRight,
       openDiscussion,
     };

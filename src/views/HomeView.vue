@@ -151,6 +151,7 @@ import { onMounted, ref, onBeforeUnmount } from "vue";
 import LastedList from "@/components/LastedList.vue";
 import { useConfigStore, useApiStore } from "@/stores/index";
 import { useRouter } from "vue-router";
+import { showFailToast } from 'vant';
 
 export default {
   name: "HomeView",
@@ -182,7 +183,7 @@ export default {
       }, []);
     };
 
-    const categorie_columns = ref(2);
+    const categorie_columns = ref(1);
 
     const handleResize = () => {
       let windowWidth = window.innerWidth;
@@ -268,6 +269,10 @@ export default {
     const openCategory = (e) => {
       if (dragFlag) {
         dragFlag = false;
+        return;
+      }
+      if (!configStore.access_token) {
+        showFailToast("登录后浏览板块");
         return;
       }
       router.push(`/category/${e.currentTarget.dataset.id}`);
