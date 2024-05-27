@@ -16,6 +16,7 @@ import { Image as VanImage } from 'vant';
 import { NavBar } from 'vant';
 import { Collapse, CollapseItem } from 'vant';
 import { FloatingPanel } from 'vant';
+import { DropdownMenu, DropdownItem } from 'vant';
 
 // 2. 引入组件样式
 import 'vant/lib/index.css';
@@ -41,6 +42,8 @@ app.use(NavBar);
 app.use(Collapse);
 app.use(CollapseItem);
 app.use(FloatingPanel);
+app.use(DropdownMenu);
+app.use(DropdownItem);
 
 // 先导入config
 const configStore = useConfigStore();

@@ -16,7 +16,7 @@
     <p>授权登录后查看实时消息、参与讨论</p>
   </div>
   <div class="categories-box">
-    <van-swipe class="my-swipe" indicator-color="#42b983">
+    <van-swipe class="my-swipe" indicator-color="#42b983" @drag-start="swipeDrag">
       <van-swipe-item
         v-for="(group, index) in discussionCategories"
         :key="index"
@@ -25,8 +25,8 @@
           <van-grid-item
             v-for="(item, index) in group"
             :key="index"
-            icon="photo-o"
-            text="文字"
+            :data-id="item.id"
+            @click="openCategory"
           >
             <template v-slot:default>
               <div class="categorie">
@@ -150,6 +150,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import { onMounted, ref, onBeforeUnmount } from "vue";
 import LastedList from "@/components/LastedList.vue";
 import { useConfigStore, useApiStore } from "@/stores/index";
+import { useRouter } from "vue-router";
 
 export default {
   name: "HomeView",
@@ -160,8 +161,12 @@ export default {
   setup() {
     const configStore = useConfigStore();
     const apiStore = useApiStore();
+    const router = useRouter();
+
     const discussionCategories = ref([]);
     const categoriesLogo = ref({});
+
+    let dragFlag = false;
 
     const chunkArray = (array, chunkSize) => {
       return array.reduce((resultArray, item, index) => {
@@ -256,6 +261,19 @@ export default {
       discussionCategories.value = chunkArray(categories, 4);
     }
 
+    const swipeDrag = (e) => {
+      dragFlag = true;
+    };
+
+    const openCategory = (e) => {
+      if (dragFlag) {
+        dragFlag = false;
+        return;
+      }
+      router.push(`/category/${e.currentTarget.dataset.id}`);
+      console.log(e.currentTarget.dataset.id);
+    };
+
     categoriesLogo.value = configStore.config.categories;
 
     return {
@@ -263,6 +281,8 @@ export default {
       discussionCategories,
       categoriesLogo,
       categorie_columns,
+      swipeDrag,
+      openCategory,
     };
   },
 };

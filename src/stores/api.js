@@ -57,7 +57,14 @@ const useApiStore = defineStore("apiStore", () => {
     if (before) params.push(`before: "${before}"`);
     if (categoryId) params.push(`categoryId: "${categoryId}"`);
     if (answered !== null) params.push(`answered: ${answered}`);
-    if (orderBy) params.push(`orderBy: ${JSON.stringify(orderBy)}`);
+    if (orderBy){
+      if (orderBy == 0){
+        params.push(`orderBy: {field: UPDATED_AT, direction: DESC}`)
+      }
+      if (orderBy == 1){
+        params.push(`orderBy: {field: CREATED_AT, direction: ASC}`)
+      }
+    }
 
     const query = `
       query {

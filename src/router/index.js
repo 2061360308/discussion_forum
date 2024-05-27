@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DiscussionView from '../views/DiscussionView.vue'
+import CategoryView from '../views/CategoryView.vue'
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
     path: '/discussion/:id',
     name: 'discussion',
     component: DiscussionView
+  },
+  {
+    path: '/category/:id',
+    name: 'category',
+    component: CategoryView
   },
   {
     path: '/about',
