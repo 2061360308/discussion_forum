@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="login" v-if="!configStore.access_token">
-    <van-button type="primary" @click="login">Github 授权</van-button>
+    <van-button type="primary" @click="configStore.login">Github 授权</van-button>
     <p>授权登录后查看实时消息、参与讨论</p>
   </div>
   <div class="categories-box">
@@ -182,9 +182,10 @@ export default {
 
     const handleResize = () => {
       let windowWidth = window.innerWidth;
-      categorie_columns.value = windowWidth >= 400 ? 2 : 1;
+      categorie_columns.value = windowWidth >= 500 ? 2 : 1;
     };
 
+    // 监听窗口变化
     onMounted(() => {
       window.addEventListener("resize", handleResize);
     });
@@ -258,22 +259,11 @@ export default {
 
     categoriesLogo.value = configStore.config.categories;
 
-    const login = () => {
-      const clientId = configStore.config.discussion.clientId;
-      const redirectUri = encodeURIComponent(
-        configStore.config.discussion.redirectUri
-      );
-      const scope = encodeURIComponent("user,public_repo,gist");
-      const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
-      window.location.href = url;
-    };
-
     return {
       configStore,
       discussionCategories,
       categoriesLogo,
       categorie_columns,
-      login,
     };
   },
 };

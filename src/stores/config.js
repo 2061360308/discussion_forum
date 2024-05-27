@@ -55,7 +55,20 @@ const useConfigStore = defineStore("configStore", () => {
     }
   }
 
-  return { config, access_token, getConfig, getAbsolutePath, checkLoginSate };
+  function login() {
+    /**
+     * 登录
+     */
+    const clientId = config.value.discussion.clientId;
+    const redirectUri = encodeURIComponent(
+      config.value.discussion.redirectUri
+    );
+    const scope = encodeURIComponent("user,public_repo,gist");
+    const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+    window.location.href = url;
+  };
+
+  return { config, access_token, getConfig, getAbsolutePath, checkLoginSate, login };
 });
 
 export { useConfigStore };
