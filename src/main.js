@@ -4,6 +4,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import { useConfigStore } from "./stores/config";
 import "./main.css"
+import "./assets/markdown.css"
 
 import { Button } from 'vant';
 import { Swipe, SwipeItem } from 'vant';

@@ -149,8 +149,7 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import { onMounted, ref, onBeforeUnmount } from "vue";
 import LastedList from "@/components/LastedList.vue";
-import { useConfigStore } from "@/stores/config";
-import { useApiStore } from "@/stores/api";
+import { useConfigStore, useApiStore } from "@/stores/index";
 
 export default {
   name: "HomeView",
@@ -182,7 +181,7 @@ export default {
 
     const handleResize = () => {
       let windowWidth = window.innerWidth;
-      categorie_columns.value = windowWidth >= 500 ? 2 : 1;
+      categorie_columns.value = windowWidth >= 600 ? 2 : 1;
     };
 
     // 监听窗口变化

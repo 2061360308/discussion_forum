@@ -16,8 +16,7 @@
     <div class="title">
       {{ commit?.title }}
     </div>
-    <div class="content">
-      {{ commit?.body }}
+    <div class="content markdown" v-html="markedStore.parseMarkdown(commit?.body)">
     </div>
     <van-collapse
       v-model="activeNames"
@@ -49,8 +48,7 @@
             <div class="title">
               {{ replie?.title }}
             </div>
-            <div class="content">
-              {{ replie?.body }}
+            <div class="content markdown" v-html="markedStore.parseMarkdown(replie?.body)">
             </div>
           </div>
           <div class="load_replie" v-if="commit?.replies?.totalCount - replies.length > 0" @click="onLoad">剩余 {{ commit?.replies?.totalCount - replies.length }} 条, 展开</div>
@@ -112,7 +110,7 @@
 
 <script>
 import { ref } from "vue";
-import { useApiStore } from "@/stores/api";
+import { useMarkedStore, useApiStore } from "@/stores/index";
 
 export default {
   name: "CommitBox",
@@ -124,6 +122,7 @@ export default {
   },
   setup(props) {
     const apiStore = useApiStore();
+    const markedStore = useMarkedStore();
 
     const activeNames = ref(["0"]);
     const replies = ref([]);
@@ -144,6 +143,7 @@ export default {
 
     console.log("传入props", props);
     return {
+      markedStore,
       activeNames,
       replies,
       loading,

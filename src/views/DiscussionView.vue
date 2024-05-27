@@ -3,6 +3,7 @@
     title="讨论"
     left-text="返回"
     right-text="回复"
+    :fixed="true"
     left-arrow
     @click-left="onClickNavLeft"
     @click-right="onClickNavRight"
@@ -23,8 +24,7 @@
   <div class="title">
     {{ discussionInf?.title }}
   </div>
-  <div class="content">
-    {{ discussionInf?.body }}
+  <div class="content markdown" v-html="markedStore.parseMarkdown(discussionInf?.body)">
   </div>
   <van-collapse v-model="activeNames">
     <van-collapse-item title="详细信息" name="1">
@@ -60,7 +60,10 @@
     @load="onLoad"
     finished-text="没有更多了"
   >
-  <commit-box v-for="commit in discussionInf?.comments?.nodes" :commit="commit"></commit-box>
+    <commit-box
+      v-for="commit in discussionComments"
+      :commit="commit"
+    ></commit-box>
   </van-list>
 </template>
 <style>
@@ -110,7 +113,7 @@
 <script>
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
-import { useApiStore } from "@/stores/api";
+import { useMarkedStore, useApiStore } from "@/stores/index";
 
 import CommitBox from "@/components/CommitBox.vue";
 
@@ -122,11 +125,14 @@ export default {
   setup() {
     const route = useRoute();
     const apiStore = useApiStore();
+    const markedStore = useMarkedStore();
 
     const loading = ref(false);
     const finished = ref(false);
 
     const discussionInf = ref({}); // 讨论详情
+    const discussionComments = ref([]); // 讨论评论
+    const discussionCommentsPageInfo = ref({});
     console.log("当前讨论id为", route.params.id);
 
     onMounted(() => {
@@ -152,16 +158,34 @@ export default {
     const activeNames = ref(["0"]);
 
     const onLoad = () => {
-      console.log("加载更多");
-      finished.value = true;
-      loading.value = false;
+      apiStore
+        .githubApi(apiStore.QUERY_DISCUSSION_COMMENTS, {
+          id: route.params.id,
+          after: discussionCommentsPageInfo.value
+            ? discussionCommentsPageInfo.value.endCursor
+            : null,
+        })
+        .then((res) => {
+          console.log("返回Discussion评论详情", res);
+          discussionComments.value.push(...res.node.comments.nodes);
+          discussionCommentsPageInfo.value = res.node.comments.pageInfo;
+          loading.value = false;
+          if (!discussionCommentsPageInfo.value.hasNextPage) {
+            finished.value = true;
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     };
 
     return {
+      markedStore,
       loading,
       finished,
       onLoad,
       discussionInf,
+      discussionComments,
       activeNames,
       onClickNavLeft,
       onClickNavRight,
