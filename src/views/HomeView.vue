@@ -21,7 +21,7 @@
         v-for="(group, index) in discussionCategories"
         :key="index"
       >
-        <van-grid :column-num="2">
+        <van-grid :column-num="categorie_columns">
           <van-grid-item
             v-for="(item, index) in group"
             :key="index"
@@ -125,7 +125,7 @@
 .categorie .info .name {
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
@@ -147,7 +147,7 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, onBeforeUnmount } from "vue";
 import LastedList from "@/components/LastedList.vue";
 import { useConfigStore } from "@/stores/config";
 import { useApiStore } from "@/stores/api";
@@ -178,10 +178,27 @@ export default {
       }, []);
     };
 
+    const categorie_columns = ref(2);
+
+    const handleResize = () => {
+      let windowWidth = window.innerWidth;
+      categorie_columns.value = windowWidth >= 400 ? 2 : 1;
+    };
+
+    onMounted(() => {
+      window.addEventListener("resize", handleResize);
+    });
+    onBeforeUnmount(() => {
+      window.removeEventListener("resize", handleResize);
+    });
+
+
+
     // 加载分类
     // 判断是否登录
     if (configStore.access_token) {
-      apiStore.githubApi(apiStore.QUERY_DISCUSSIONS_CATEGORIES, {})
+      apiStore
+        .githubApi(apiStore.QUERY_DISCUSSIONS_CATEGORIES, {})
         .then((res) => {
           // console.log(res);
           const categories = res.repository.discussionCategories.nodes;
@@ -193,49 +210,49 @@ export default {
     } else {
       // 从action提前构建的数据中加载
       const categories = [
-          {
-            name: "A公告",
-            description: "维护者更新",
-            emojiHTML: "<div>📣</div>",
-            emoji: ":mega:",
-            id: "DIC_kwDOL_11UM4CfkqR",
-          },
-          {
-            name: "B闲聊区",
-            description: "可以在这儿聊所有有关Legado的事情",
-            emojiHTML: "<div>💬</div>",
-            emoji: ":speech_balloon:",
-            id: "DIC_kwDOL_11UM4CfkqS",
-          },
-          {
-            name: "C书源发布",
-            description: "分享你编写或喜欢的书源以及书源合集",
-            emojiHTML: "<div>💡</div>",
-            emoji: ":bulb:",
-            id: "DIC_kwDOL_11UM4CfkqU",
-          },
-          {
-            name: "D订阅源发布",
-            description: "分享你编写或喜欢的订阅源",
-            emojiHTML: "<div>🙌</div>",
-            emoji: ":raised_hands:",
-            id: "DIC_kwDOL_11UM4CfkqV",
-          },
-          {
-            name: "E问答区",
-            description: "寻求社区的帮助",
-            emojiHTML: "<div>🙏</div>",
-            emoji: ":pray:",
-            id: "DIC_kwDOL_11UM4CfkqT",
-          },
-          {
-            name: "F投票",
-            description: "社区投票",
-            emojiHTML: "<div>🗳️</div>",
-            emoji: ":ballot_box:",
-            id: "DIC_kwDOL_11UM4CfkqW",
-          },
-        ]
+        {
+          name: "A公告",
+          description: "维护者更新",
+          emojiHTML: "<div>📣</div>",
+          emoji: ":mega:",
+          id: "DIC_kwDOL_11UM4CfkqR",
+        },
+        {
+          name: "B闲聊区",
+          description: "可以在这儿聊所有有关Legado的事情",
+          emojiHTML: "<div>💬</div>",
+          emoji: ":speech_balloon:",
+          id: "DIC_kwDOL_11UM4CfkqS",
+        },
+        {
+          name: "C书源发布",
+          description: "分享你编写或喜欢的书源以及书源合集",
+          emojiHTML: "<div>💡</div>",
+          emoji: ":bulb:",
+          id: "DIC_kwDOL_11UM4CfkqU",
+        },
+        {
+          name: "D订阅源发布",
+          description: "分享你编写或喜欢的订阅源",
+          emojiHTML: "<div>🙌</div>",
+          emoji: ":raised_hands:",
+          id: "DIC_kwDOL_11UM4CfkqV",
+        },
+        {
+          name: "E问答区",
+          description: "寻求社区的帮助",
+          emojiHTML: "<div>🙏</div>",
+          emoji: ":pray:",
+          id: "DIC_kwDOL_11UM4CfkqT",
+        },
+        {
+          name: "F投票",
+          description: "社区投票",
+          emojiHTML: "<div>🗳️</div>",
+          emoji: ":ballot_box:",
+          id: "DIC_kwDOL_11UM4CfkqW",
+        },
+      ];
       discussionCategories.value = chunkArray(categories, 4);
     }
 
@@ -255,6 +272,7 @@ export default {
       configStore,
       discussionCategories,
       categoriesLogo,
+      categorie_columns,
       login,
     };
   },
