@@ -67,7 +67,7 @@
       :commit="commit"
     ></commit-box>
   </van-list>
-  <editor-panel v-model="editerPanelShow" />
+  <editor-panel v-model="editerPanelShow" :sendObject="sendObject" />
 </template>
 <style>
 .top-info {
@@ -132,7 +132,8 @@ export default {
     const apiStore = useApiStore();
     const markedStore = useMarkedStore();
 
-    const editerPanelShow = ref(true);
+    const editerPanelShow = ref(false);
+    const sendObject = ref({});
 
     const loading = ref(false);
     const finished = ref(false);
@@ -161,6 +162,13 @@ export default {
     const onClickNavRight = () => {
       console.log("点击了回复");
       editerPanelShow.value = !editerPanelShow.value;
+      sendObject.value = {
+        discussionId: route.params.id,
+        recipient: {
+          login: discussionInf.value.author.login,
+          avatarUrl: discussionInf.value.author.avatarUrl,
+        },
+      };
     };
 
     const activeNames = ref(["0"]);
@@ -192,6 +200,7 @@ export default {
       editerPanelShow,
       loading,
       finished,
+      sendObject,
       onLoad,
       discussionInf,
       discussionComments,
