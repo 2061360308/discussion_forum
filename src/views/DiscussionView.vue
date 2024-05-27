@@ -24,8 +24,10 @@
   <div class="title">
     {{ discussionInf?.title }}
   </div>
-  <div class="content markdown" v-html="markedStore.parseMarkdown(discussionInf?.body)">
-  </div>
+  <div
+    class="content markdown"
+    v-html="markedStore.parseMarkdown(discussionInf?.body)"
+  ></div>
   <van-collapse v-model="activeNames">
     <van-collapse-item title="详细信息" name="1">
       <van-cell-group>
@@ -65,6 +67,9 @@
       :commit="commit"
     ></commit-box>
   </van-list>
+  <van-floating-panel v-if="editerPanel">
+    <van-nav-bar title="编辑" right-text="取消" @click-right="onClickEditorCancel" />
+  </van-floating-panel>
 </template>
 <style>
 .top-info {
@@ -126,6 +131,7 @@ export default {
     const route = useRoute();
     const apiStore = useApiStore();
     const markedStore = useMarkedStore();
+    const editerPanel = ref(false);
 
     const loading = ref(false);
     const finished = ref(false);
@@ -153,6 +159,11 @@ export default {
 
     const onClickNavRight = () => {
       console.log("点击了回复");
+      editerPanel.value = !editerPanel.value;
+    };
+
+    const onClickEditorCancel = () => {
+      editerPanel.value = false;
     };
 
     const activeNames = ref(["0"]);
@@ -181,6 +192,8 @@ export default {
 
     return {
       markedStore,
+      editerPanel,
+      onClickEditorCancel,
       loading,
       finished,
       onLoad,

@@ -15,6 +15,8 @@ import { Cell, CellGroup } from 'vant';
 import { Image as VanImage } from 'vant';
 import { NavBar } from 'vant';
 import { Collapse, CollapseItem } from 'vant';
+import { FloatingPanel } from 'vant';
+
 // 2. 引入组件样式
 import 'vant/lib/index.css';
 import '@vant/touch-emulator';
@@ -38,6 +40,7 @@ app.use(VanImage);
 app.use(NavBar);
 app.use(Collapse);
 app.use(CollapseItem);
+app.use(FloatingPanel);
 
 // 先导入config
 const configStore = useConfigStore();
