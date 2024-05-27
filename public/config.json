@@ -16,6 +16,6 @@
         "owner": "vuejs",
         "repo": "core",
         "clientId": "Ov23lileX1tg2t2TKwux",
-        "redirectUri": "https://legado-auth.vercel.app/api/auth"
+        "redirectUri": "https://legado.1think2program.cn/api/auth"
     }
 }
