@@ -67,9 +67,7 @@
       :commit="commit"
     ></commit-box>
   </van-list>
-  <van-floating-panel v-if="editerPanel">
-    <van-nav-bar title="编辑" right-text="取消" @click-right="onClickEditorCancel" />
-  </van-floating-panel>
+  <editor-panel v-model="editerPanelShow" />
 </template>
 <style>
 .top-info {
@@ -121,17 +119,20 @@ import { ref, onMounted } from "vue";
 import { useMarkedStore, useApiStore } from "@/stores/index";
 
 import CommitBox from "@/components/CommitBox.vue";
+import EditorPanel from "@/components/EditorPanel.vue";
 
 export default {
   name: "DiscussionView",
   components: {
     CommitBox,
+    EditorPanel,
   },
   setup() {
     const route = useRoute();
     const apiStore = useApiStore();
     const markedStore = useMarkedStore();
-    const editerPanel = ref(false);
+
+    const editerPanelShow = ref(true);
 
     const loading = ref(false);
     const finished = ref(false);
@@ -159,11 +160,7 @@ export default {
 
     const onClickNavRight = () => {
       console.log("点击了回复");
-      editerPanel.value = !editerPanel.value;
-    };
-
-    const onClickEditorCancel = () => {
-      editerPanel.value = false;
+      editerPanelShow.value = !editerPanelShow.value;
     };
 
     const activeNames = ref(["0"]);
@@ -192,8 +189,7 @@ export default {
 
     return {
       markedStore,
-      editerPanel,
-      onClickEditorCancel,
+      editerPanelShow,
       loading,
       finished,
       onLoad,

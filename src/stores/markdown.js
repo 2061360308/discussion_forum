@@ -5,7 +5,7 @@ import { marked } from 'marked';
 
 const useMarkedStore = defineStore("markedStore", () => {
     function parseMarkdown(markdown) {
-        console.log('parseMarkdown', markdown);
+        // console.log('parseMarkdown', markdown);
         return marked.parse(markdown||'');
     }
 
